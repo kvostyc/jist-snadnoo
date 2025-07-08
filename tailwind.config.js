@@ -20,5 +20,17 @@ export default {
     plugins: [
         forms,
         require('daisyui'),
-    ]
+    ],
+
+    daisyui: {
+        themes: [
+            {
+                light: {
+                    "primary": "#87cefa",
+                    "secondary": "#87cefa",
+                    // môžeš pridať ďalšie DaisyUI farby podľa dokumentácie
+                },
+            },
+        ],
+    },
 };

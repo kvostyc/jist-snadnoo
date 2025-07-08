@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'restaurant_name' => 'Jez Snadnoo',
+    'restaurant_name' => 'Jist Snadnoo',
     'menu' => 'Menu',
     'about' => 'O nás',
     'contact' => 'Kontakt',
@@ -27,4 +27,5 @@ return [
     'contact_phone' => '+421 900 123 456',
     'contact_email' => 'info@jezsnadnoo.sk',
     'footer_copyright' => '© 2024 Všetky práva vyhradené',
+    'logout' => 'Odhlásiť sa',
 ]; 

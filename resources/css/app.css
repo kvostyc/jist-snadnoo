@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    background-color: rgb(255 247 237) !important;
+}
+
+::selection {
+    background-color: #87cefa; 
+    color: #fff;              
+}
+
+input::selection, textarea::selection {
+    background-color: #87cefa;
+    color: #0c0a09;
+}
+
+input, textarea {
+    color: #0c0a09;
+}
+
 .hero-gradient{
     background: linear-gradient(135deg,#e35c02,#0c0a09);
+}
+
+dialog[open] {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
 }
