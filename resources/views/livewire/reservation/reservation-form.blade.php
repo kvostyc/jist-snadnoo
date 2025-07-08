@@ -109,7 +109,7 @@
                         @endif
 
                         @if ($step == 2)
-                            <livewire:reservation.table-map :date="$date" :time="$time" :guestCount="$guest_count"
+                            <livewire:reservation.table-map :date="$date" :time="$time" :guest_count="$guest_count"
                                 :key="auth()->id() ?? 'guest'" />
                         @endif
                     </div>

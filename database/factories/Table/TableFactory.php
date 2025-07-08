@@ -17,7 +17,9 @@ class TableFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word() . ' ' . $this->faker->randomElement(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']),
+            'identifier' => strtoupper($this->faker->bothify('TBL-##??')),
+            'available_for_guest_count' => $this->faker->numberBetween(1, 8),
         ];
     }
 }

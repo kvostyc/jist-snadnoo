@@ -2,17 +2,12 @@
 
 namespace App\Livewire\Reservation;
 
+use App\Livewire\Reservation\Traits\HasReservationAttributes;
 use Livewire\Component;
 
 class ReservationForm extends Component
 {
-    public $max_guest_count = 8;
-
-    public $date;
-
-    public $time;
-
-    public $guest_count;
+    use HasReservationAttributes;
 
     public $step = 2;
 

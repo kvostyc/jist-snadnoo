@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 50);
+            $table->string('identifier', 50);
+            $table->unsignedTinyInteger('available_for_guest_count');
+            $table->integer('x');
+            $table->integer('y');
+            $table->string('type', 20);
             $table->timestamps();
         });
     }
