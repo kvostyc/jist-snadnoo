@@ -1,9 +1,9 @@
 <div class="p-6 pt-0">
     @if ($reservationSuccess)
         <div class="text-center py-8">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="lucide lucide-circle-check-big w-16 h-16 text-green-500 mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-circle-check-big w-16 h-16 text-green-500 mx-auto mb-4">
                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                 <path d="m9 11 3 3L22 4"></path>
             </svg>
@@ -16,12 +16,14 @@
             <div class="grid grid-cols-3 gap-4 text-sm text-gray-600">
                 <div>
                     <strong>{{ __('reservation.date') }}:</strong>
-                    <br>{{ $date ?? '-' }}
+                    <br>{{ \Carbon\Carbon::parse($date)->format('d.m.Y') ?? '-' }}
                 </div>
                 <div>
                     <strong>{{ __('reservation.time') }}:</strong><br>{{ $time ?? '-' }}
                 </div>
-                <div><strong>{{ __('reservation.guests') }}:</strong><br>{{ $guest_count ?? '-' . __('reservation.person') }} </div>
+                <div>
+                    <strong>{{ __('reservation.guests') }}:</strong><br>{{ $guest_count ?? '-' . __('reservation.person') }}
+                </div>
             </div>
         </div>
 
@@ -39,7 +41,7 @@
                     <span class="text-gray-950">{{ __('reservation.choose_table') }}</span>
                 </h3>
                 <p class="text-sm text-gray-600">
-                    {{ __('reservation.available_tables_for', ['date' => $date ?? '-', 'time' => $time ?? '-', 'guests' => $guest_count ?? '-']) }}
+                    {{ __('reservation.available_tables_for', ['date' => \Carbon\Carbon::parse($date)->format('d.m.Y') ?? '-', 'time' => $time ?? '-', 'guests' => $guest_count ?? '-']) }}
                 </p>
             </div>
 
@@ -108,11 +110,20 @@
             <div class="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h4 class="font-semibold text-gray-800">{{ __('reservation.selected_table', ['name' => $selectedTable->name]) }}</h4>
+                        <h4 class="font-semibold text-gray-800">
+                            {{ __('reservation.selected_table', ['name' => $selectedTable->name]) }}</h4>
                         <p class="text-sm text-gray-600">
                             {{ __('reservation.table_suitable_for', [
                                 'count' => $selectedTable->available_for_guest_count,
-                                'type' => __($selectedTable->type === 'square' ? 'reservation.square' : ($selectedTable->type === 'round' ? 'reservation.round' : ($selectedTable->type === 'booth' ? 'reservation.booth' : ucfirst($selectedTable->type))))
+                                'type' => __(
+                                    $selectedTable->type === 'square'
+                                        ? 'reservation.square'
+                                        : ($selectedTable->type === 'round'
+                                            ? 'reservation.round'
+                                            : ($selectedTable->type === 'booth'
+                                                ? 'reservation.booth'
+                                                : ucfirst($selectedTable->type))),
+                                ),
                             ]) }}
                         </p>
                     </div>
@@ -123,29 +134,40 @@
                 </div>
             </div>
             <div class="my-4">
-                @if ($errors->any())
-                    <div class="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded">
-                        <ul class="list-disc pl-5">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
             </div>
         @endif
 
-        <div class="my-4">
-            <div class="flex gap-4 pt-4">
-                <button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex-1">{{ __('reservation.back') }}</button>
-                <button @click="$wire.reserveTable()"
+        @if ($errors->any())
+            <div class="my-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div>
+            <div class="flex gap-4">
+                <button wire:click="reserveTable" wire:loading.attr="disabled" wire:target="reserveTable"
                     class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background 
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
                 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 
                 bg-primary hover:bg-primary/90 h-10 px-4 flex-1 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600
                  hover:to-amber-600 text-white
-                 font-semibold py-3 text-lg rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl">{{ __('reservation.reserve') }}</button>
+                 font-semibold py-3 text-lg rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <span wire:loading.remove wire:target="reserveTable">{{ __('reservation.reserve') }}</span>
+                    <span wire:loading wire:target="reserveTable" wire:loading.class="!flex" class="!flex-row !items-center !gap-2">
+                        <span>{{ __('reservation.reserving') }}</span>
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+                            </path>
+                        </svg>
+                    </span>
+                </button>
             </div>
         </div>
     @endif

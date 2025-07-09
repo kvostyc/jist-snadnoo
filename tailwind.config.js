@@ -26,11 +26,33 @@ export default {
         themes: [
             {
                 light: {
-                    "primary": "#87cefa",
-                    "secondary": "#87cefa",
-                    // môžeš pridať ďalšie DaisyUI farby podľa dokumentácie
-                },
-            },
-        ],
-    },
+                    "primary": "#f97316", // orange-500
+                    "primary-focus": "#ea580c", // orange-600
+                    "primary-content": "#ffffff",
+
+                    "secondary": "#6b7280", // gray-500
+                    "secondary-focus": "#4b5563", // gray-600
+                    "secondary-content": "#ffffff",
+
+                    "accent": "#f59e0b", // amber-500
+                    "accent-focus": "#d97706", // amber-600
+                    "accent-content": "#ffffff",
+
+                    "neutral": "#374151", // gray-700
+                    "neutral-focus": "#1f2937", // gray-800
+                    "neutral-content": "#ffffff",
+
+                    "base-100": "#ffffff",
+                    "base-200": "#f9fafb", // gray-50
+                    "base-300": "#f3f4f6", // gray-100
+                    "base-content": "#1f2937", // gray-800
+
+                    "info": "#3b82f6", // blue-500
+                    "success": "#10b981", // green-500
+                    "warning": "#f59e0b", // amber-500
+                    "error": "#ef4444", // red-500
+                }
+            }
+        ]
+    }
 };

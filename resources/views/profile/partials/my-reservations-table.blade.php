@@ -1,36 +1,57 @@
+@props([
+    "reservations",
+])
+
 <div class="overflow-x-auto w-full">
     <table class="table">
-        <!-- head -->
         <thead>
             <tr class="text-gray-950">
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
+                <th class="text-gray-950">#</th>
+                <th class="text-gray-950">{{ __('reservation.date') }}</th>
+                <th class="text-gray-950">{{ __('reservation.time') }}</th>
+                <th class="text-gray-950">{{ __('reservation.guests') }}</th>
+                <th class="text-gray-950">{{ __('reservation.status') }}</th>
+                <th class="text-gray-950">{{ __('reservation.table') }}</th>
+                <th class="text-gray-950">{{ __('reservation.created_at') }}</th>
             </tr>
         </thead>
         <tbody>
-            <!-- row 1 -->
-            <tr class="bg-base-200">
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-            </tr>
-            <!-- row 2 -->
-            <tr class="text-gray-950">
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-            </tr>
-            <!-- row 3 -->
-            <tr class="text-gray-950">
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-            </tr>
+            @forelse ($reservations as $i => $reservation)
+                <tr class="text-gray-950">
+                    <th class="text-gray-950">{{ $i + 1 }}</th>
+                    <td class="text-gray-950">{{ \Carbon\Carbon::parse($reservation->date)->format('d.m.Y') }}</td>
+                    <td class="text-gray-950">{{ $reservation->time }}</td>
+                    <td class="text-gray-950">{{ $reservation->guest_count }}</td>
+                    <td>
+                        @if($reservation->reservation_status)
+                            @php
+                                $reservationStatusColor = $reservation->reservation_status->color_hex;
+                            @endphp
+                            <span class="badge bg-transparent font-bold" style="border-color: {{ $reservationStatusColor }}; color: {{ $reservationStatusColor }}">
+                                {{ $reservation->reservation_status->name }}
+                            </span>
+                        @else
+                            <span class="badge badge-ghost">-</span>
+                        @endif
+                    </td>
+                    <td class="text-gray-950">
+                        @if($reservation->table)
+                            {{ $reservation->table->name ?? ('#' . $reservation->table->id) }}
+                        @else
+                            <span class="badge badge-ghost">-</span>
+                        @endif
+                    </td>
+                    <td class="text-gray-950">
+                        {{ $reservation->created_at?->format('d.m.Y H:i') ?? '-' }}
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="9" class="text-center text-gray-500 py-4">
+                        {{ __('reservation.no_reservations') }}
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

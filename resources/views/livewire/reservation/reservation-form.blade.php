@@ -45,7 +45,7 @@
                                             for="time">{{ __('reservation.time') }} *</label>
                                         <select id="time" name="time"
                                             class="block w-full border-gray-300 rounded-md shadow-sm text-gray-950 focus:ring-orange-500 focus:border-orange-500"
-                                            x-data="{ times: Array.from({ length: 13 }, (_, i) => { let h = 15 + Math.floor(i / 2); let m = i % 2 === 0 ? '00' : '30'; return (h < 10 ? '0' : '') + h + ':' + m; }) }" x-model="time">
+                                            x-data="{ times: Array.from({ length: 8 }, (_, i) => { let h = 8 + i * 2; return (h < 10 ? '0' : '') + h + ':00'; }) }" x-model="time">
                                             <option value="" selected>{{ __('reservation.select_time') }}</option>
                                             <template x-for="t in times" :key="t">
                                                 <option class="text-gray-950" :value="t" x-text="t">

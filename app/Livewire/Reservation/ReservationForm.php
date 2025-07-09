@@ -9,14 +9,9 @@ class ReservationForm extends Component
 {
     use HasReservationAttributes;
 
-    public $step = 2;
+    public $step = 1;
 
-    public function mount()
-    {
-        $this->date = now()->format('Y-m-d');
-        $this->time = '20:00';
-        $this->guest_count = 5;
-    }
+    public function mount() {}
 
     public function render()
     {
@@ -39,6 +34,7 @@ class ReservationForm extends Component
             'guest_count.min' => 'Minimálny počet hostí je 1.',
             'guest_count.max' => 'Maximálny počet hostí je ' . $this->max_guest_count . '.',
         ]);
+
         $this->step = 2;
     }
 }
