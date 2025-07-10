@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\Reservation\ReservationSeeder;
 use Database\Seeders\Reservation\ReservationStatusSeeder;
 use Database\Seeders\Table\TableSeeder;
+use Database\Seeders\User\UserAdminSeeder;
 use Database\Seeders\User\UserSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,10 +18,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       $this->call(UserSeeder::class);
+        /** Users Seeding */
+        $this->call(UserAdminSeeder::class);
+        $this->call(UserSeeder::class);
 
-       $this->call(TableSeeder::class);
+        /** Tables Seeding */
+        $this->call(TableSeeder::class);
 
-       $this->call(ReservationStatusSeeder::class);
+        /** Reservations seeding */
+        $this->call(ReservationStatusSeeder::class);
+        $this->call(ReservationSeeder::class);
     }
 }

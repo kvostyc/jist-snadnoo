@@ -25,7 +25,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'is_admin', /** Spatie Roles are Better */
+        'is_admin', /** @TODO make auth by spatie/laravel-permission */
     ];
 
     /**

@@ -4,10 +4,13 @@ namespace App\Models\Reservation;
 
 use App\Models\User;
 use App\Models\Table\Table;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+    use HasFactory;
+    
     protected $fillable = [
         "user_id",
         "reservation_status_id",

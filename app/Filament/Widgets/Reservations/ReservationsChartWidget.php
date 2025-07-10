@@ -32,12 +32,12 @@ class ReservationsChartWidget extends ChartWidget
         $startDate = now()->subDays($days - 1)->startOfDay();
         
         $reservations = DB::table('reservations')
-            ->whereBetween('created_at', [
-                $startDate,
-                now()->endOfDay()
+            ->whereBetween('date', [
+                $startDate->format('Y-m-d'),
+                now()->format('Y-m-d')
             ])
-            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
-            ->groupBy(DB::raw('DATE(created_at)'))
+            ->selectRaw('date, COUNT(*) as count')
+            ->groupBy('date')
             ->orderBy('date')
             ->get();
         
@@ -58,7 +58,7 @@ class ReservationsChartWidget extends ChartWidget
                     'label' => 'Počet rezervácií',
                     'data' => $counts,
                     'backgroundColor' => '#f97316',
-                    'borderColor' => '#ea580c', // orange-600
+                    'borderColor' => '#ea580c',
                     'borderWidth' => 2,
                 ],
             ],
