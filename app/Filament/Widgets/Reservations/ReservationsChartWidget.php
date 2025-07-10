@@ -23,6 +23,7 @@ class ReservationsChartWidget extends ChartWidget
             '7' => 'Posledných 7 dní',
             '14' => 'Posledných 14 dní', 
             '28' => 'Posledných 28 dní',
+            '31' => 'Posledných 31 dní',
         ];
     }
     
