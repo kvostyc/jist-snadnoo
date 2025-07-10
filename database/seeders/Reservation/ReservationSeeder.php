@@ -13,6 +13,12 @@ class ReservationSeeder extends Seeder
      */
     public function run(): void
     {
-        Reservation::factory(50)->create();
+        /**
+         * Create reservations without firing model observers/events
+         * This ensures that no Reservation observer logic is triggered during seeding
+         */
+        Reservation::withoutEvents(function () {
+            Reservation::factory(50)->create();
+        });
     }
 }

@@ -11,7 +11,7 @@ class ReservationsChartWidget extends ChartWidget
 {
     protected static ?string $heading = 'Rezervácie za posledné obdobie';
     
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 0;
 
     protected string|int|array $columnSpan = 'full';
     

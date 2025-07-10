@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\AdminNotificationWidget;
 use Filament\Pages\Dashboard as PagesDashboard;
 use App\Filament\Widgets\Reservations\ReservationsChartWidget;
 use App\Filament\Widgets\Reservations\LastWeekReservationsWidget;
@@ -12,14 +13,10 @@ class Dashboard extends PagesDashboard
     protected function getHeaderWidgets(): array
     {
         return [
+            AdminNotificationWidget::class,
             TodayReservationsWidget::class,
             LastWeekReservationsWidget::class,
         ];
-    }
-
-    public function getColumns(): int | string | array
-    {
-        return 1;
     }
 
     protected function getFooterWidgets(): array

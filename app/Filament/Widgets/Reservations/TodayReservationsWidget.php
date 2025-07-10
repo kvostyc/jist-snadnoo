@@ -8,9 +8,18 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class TodayReservationsWidget extends BaseWidget
 {
+    protected static ?int $sort = 0;
+
+    protected string|int|array $columnSpan = 'full';
+
     public function getColumnSpan(): int|string|array
     {
-        return 'full'; // 6 stĺpcov = polovica šírky
+        return 'lg';
+    }
+
+    protected function getColumns(): int
+    {
+        return 1;
     }
 
     protected function getStats(): array
