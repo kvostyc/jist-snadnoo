@@ -102,12 +102,9 @@ class TableMap extends Component
         $statusService = app(ReservationStatusService::class);
         $statuses = $statusService->findAll()->keyBy('code');
 
-        /* Get all tables and determine their status for the selected date and time */
         $tableService = app(TableService::class);
-        $reservationService = app(ReservationService::class);
         
-        $tables = $tableService->findAll()->map(function ($table) use ($statuses, $reservationService) {
-            /* Find a reservation for this table at the selected date and time with specific statuses */
+        $tables = $tableService->findAll()->map(function ($table) use ($statuses) {
             $reservation = $table->reservations()
                 ->where('date', $this->date)
                 ->where('time', $this->time)
@@ -118,10 +115,8 @@ class TableMap extends Component
 
             /* Set table status based on reservation, or check capacity for available tables */
             if ($reservation) {
-                /* Table already has a reservation - use its status */
                 $table->status = $reservation->reservation_status->code;
             } else {
-                /* Table is available - check if it has enough capacity */
                 if ($this->guest_count > $table->available_for_guest_count) {
                     $table->status = 'few_seats';
                 } else {

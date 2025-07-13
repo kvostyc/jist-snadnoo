@@ -26,6 +26,7 @@
                                             for="date">{{ __('reservation.date') }} *</label>
                                         <select id="date" name="date"
                                             class="block w-full border-gray-300 rounded-md shadow-sm text-gray-950 focus:ring-orange-500 focus:border-orange-500"
+                                            data-cy="date-select"
                                             x-data="{
                                                 dates: Array.from({ length: 10 }, (_, i) => {
                                                     let d = new Date();
@@ -47,6 +48,7 @@
                                             for="time">{{ __('reservation.time') }} *</label>
                                         <select id="time" name="time"
                                             class="block w-full border-gray-300 rounded-md shadow-sm text-gray-950 focus:ring-orange-500 focus:border-orange-500"
+                                            data-cy="time-select"
                                             x-data="{ times: Array.from({ length: 8 }, (_, i) => { let h = 8 + i * 2; return (h < 10 ? '0' : '') + h + ':00'; }) }" x-model="time">
                                             <option value="" selected>{{ __('reservation.select_time') }}</option>
                                             <template x-for="t in times" :key="t">
@@ -60,6 +62,7 @@
                                             for="guests">{{ __('reservation.guests') }} *</label>
                                         <select id="guests" name="guests"
                                             class="block w-full border-gray-300 rounded-md shadow-sm text-gray-950 focus:ring-orange-500 focus:border-orange-500"
+                                            data-cy="guests-select"
                                             x-model.number="guest_count">
                                             <option value="" selected>{{ __('reservation.select_guests') }}
                                             </option>
@@ -100,6 +103,7 @@
                                         @if ($step == 1)
                                             <button :disabled="!date || !time || !guest_count" wire:loading.attr="disabled"
                                                 wire:target="submitReservationTimes"
+                                                data-cy="continue-to-table-selection"
                                                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background 
                                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
                                         disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none 

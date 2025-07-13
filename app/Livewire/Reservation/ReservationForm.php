@@ -19,7 +19,6 @@ class ReservationForm extends Component
     */
     public function mount() 
     {
-        // Initialize properties to prevent null issues
         $this->date = $this->date ?: '';
         $this->time = $this->time ?: '';
         $this->guest_count = $this->guest_count ?: null;

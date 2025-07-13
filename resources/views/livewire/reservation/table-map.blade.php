@@ -100,26 +100,37 @@
                                 rx="5" fill="{{ $fill }}" stroke="{{ $stroke }}"
                                 stroke-width="{{ $strokeWidth }}"
                                 class="transition-all duration-200 {{ $cursor }}"
+                                data-cy="table-{{ $table->id }}"
+                                data-cy-status="{{ $table->status }}"
+                                data-cy-type="{{ $table->type }}"
                                 @if ($table->status === 'available') wire:click="selectTable({{ $table->id }})" @endif />
                         @elseif($table->type === 'round')
                             <circle cx="{{ $table->x }}" cy="{{ $table->y }}" r="25"
                                 fill="{{ $fill }}" stroke="{{ $stroke }}"
                                 stroke-width="{{ $strokeWidth }}"
                                 class="transition-all duration-200 {{ $cursor }}"
+                                data-cy="table-{{ $table->id }}"
+                                data-cy-status="{{ $table->status }}"
+                                data-cy-type="{{ $table->type }}"
                                 @if ($table->status === 'available') wire:click="selectTable({{ $table->id }})" @endif />
                         @elseif($table->type === 'booth')
                             <rect x="{{ $table->x }}" y="{{ $table->y }}" width="60" height="40"
                                 rx="10" fill="{{ $fill }}" stroke="{{ $stroke }}"
                                 stroke-width="{{ $strokeWidth }}"
                                 class="transition-all duration-200 {{ $cursor }}"
+                                data-cy="table-{{ $table->id }}"
+                                data-cy-status="{{ $table->status }}"
+                                data-cy-type="{{ $table->type }}"
                                 @if ($table->status === 'available') wire:click="selectTable({{ $table->id }})" @endif />
                         @endif
                         <text x="{{ $table->type === 'round' ? $table->x : $table->x + 30 }}"
                             y="{{ $table->type === 'round' ? $table->y + 4 : $table->y + 24 }}" text-anchor="middle"
-                            class="text-xs font-bold fill-white pointer-events-none">{{ $table->id }}</text>
+                            class="text-xs font-bold fill-white pointer-events-none"
+                            data-cy="table-{{ $table->id }}-number">{{ $table->id }}</text>
                         <text x="{{ $table->type === 'round' ? $table->x : $table->x + 30 }}"
                             y="{{ $table->type === 'round' ? $table->y + 16 : $table->y + 36 }}" text-anchor="middle"
-                            class="text-xs fill-gray-600 pointer-events-none">{{ $table->available_for_guest_count }}</text>
+                            class="text-xs fill-gray-600 pointer-events-none"
+                            data-cy="table-{{ $table->id }}-capacity">{{ $table->available_for_guest_count }}</text>
                     @endforeach
                 </svg>
                 <div class="mt-4 flex flex-wrap gap-4 text-sm">
@@ -176,6 +187,7 @@
         <div>
             <div class="flex gap-4">
                 <button wire:click="reserveTable" wire:loading.attr="disabled" wire:target="reserveTable"
+                    data-cy="reserve-table-button"
                     class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background 
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
                 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 

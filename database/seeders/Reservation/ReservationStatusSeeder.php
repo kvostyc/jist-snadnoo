@@ -2,10 +2,13 @@
 
 namespace Database\Seeders\Reservation;
 
+use App\Core\Services\ReservationStatusService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
+/**
+ * Seeder for reservation statuses
+ */
 class ReservationStatusSeeder extends Seeder
 {
     /**
@@ -13,7 +16,9 @@ class ReservationStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('reservation_statuses')->insert([
+        $statusService = app(ReservationStatusService::class);
+
+        $statuses = [
             [
                 'name' => 'Dostupný',
                 'code' => 'available',
@@ -44,6 +49,10 @@ class ReservationStatusSeeder extends Seeder
                 'color_hex' => '#a3a3a3',
                 'bg_color_hex' => '#525252',
             ],
-        ]);
+        ];
+
+        foreach ($statuses as $status) {
+            $statusService->create($status);
+        }
     }
 }

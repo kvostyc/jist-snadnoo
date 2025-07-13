@@ -155,9 +155,9 @@ class ProfileTest extends TestCase
         $response->assertOk();
         $response->assertSee($table->name);
         $response->assertSee($status->name);
-        $response->assertSee('4'); // guest count
-        $response->assertSee('18:00'); // time
-        $response->assertSee(now()->addDays(5)->format('d.m.Y')); // date
+        $response->assertSee('4');
+        $response->assertSee('18:00');
+        $response->assertSee(now()->addDays(5)->format('d.m.Y'));
     }
 
     #[Test]
@@ -168,7 +168,6 @@ class ProfileTest extends TestCase
         $status = ReservationStatus::factory()->create();
         $table = Table::factory()->create();
         
-        // User 1 reservation
         $reservation1 = Reservation::factory()->create([
             'user_id' => $user1->id,
             'reservation_status_id' => $status->id,
@@ -178,7 +177,6 @@ class ProfileTest extends TestCase
             'guest_count' => 4,
         ]);
 
-        // User 2 reservation
         $reservation2 = Reservation::factory()->create([
             'user_id' => $user2->id,
             'reservation_status_id' => $status->id,
@@ -193,8 +191,8 @@ class ProfileTest extends TestCase
             ->get('/my-reservations');
 
         $response->assertOk();
-        $response->assertSee('18:00'); // User 1's reservation time
-        $response->assertDontSee('19:00'); // User 2's reservation time should not be visible
+        $response->assertSee('18:00');
+        $response->assertDontSee('19:00');
     }
 
     #[Test]
