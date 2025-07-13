@@ -18,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Register services
+        /** 
+         * Register services 
+         */
         $this->app->bind(UserService::class);
         $this->app->bind(ReservationService::class);
         $this->app->bind(TableService::class);

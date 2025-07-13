@@ -20,6 +20,9 @@ class TableFactory extends Factory
             'name' => $this->faker->word() . ' ' . $this->faker->randomElement(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']),
             'identifier' => strtoupper($this->faker->bothify('TBL-##??')),
             'available_for_guest_count' => $this->faker->numberBetween(1, 8),
+            'x' => $this->faker->numberBetween(50, 400),
+            'y' => $this->faker->numberBetween(50, 500),
+            'type' => $this->faker->randomElement(['square', 'round', 'booth']),
         ];
     }
 }

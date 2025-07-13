@@ -17,7 +17,10 @@ class ReservationStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->randomElement(['Rezervované', 'Obsadené', 'Voľné', 'Zrušené']),
+            'code' => $this->faker->unique()->randomElement(['reserved', 'occupied', 'available', 'cancelled']),
+            'color_hex' => $this->faker->hexColor(),
+            'bg_color_hex' => $this->faker->hexColor(),
         ];
     }
 }
