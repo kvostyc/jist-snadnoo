@@ -73,6 +73,19 @@
             }
         });
     </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('redirect-after-delay', (event) => {
+                console.log("Redirect event received, redirecting in 5 seconds...");
+                setTimeout(() => {
+                    window.location.href = event.detail.url;
+                }, 5000);
+            });
+        });
+    </script>
+
 </body>
 
 </html>

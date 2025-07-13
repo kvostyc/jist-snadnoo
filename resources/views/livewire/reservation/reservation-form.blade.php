@@ -4,15 +4,17 @@
     guest_count: $wire.entangle('guest_count'),
     max_guest_count: $wire.entangle('max_guest_count'),
     init() {
-        console.log(this.date, this.time, this.guest_count);
+        if (!this.date) this.date = '';
+        if (!this.time) this.time = '';
+        if (!this.guest_count) this.guest_count = null;
     }
 }">
     <div class="container mx-auto px-4">
         <div class="max-w-2xl mx-auto">
             <div class="shadow-sm bg-white border-0 rounded-md">
                 <div class="flex flex-col space-y-1.5 p-6 text-center pb-6">
-                    <h3 class="tracking-tight text-3xl font-bold text-gray-800">Rezervácia stola</h3>
-                    <p class="text-lg text-gray-600">Vyberte si ideálny čas pre vášu návštevu</p>
+                    <h3 class="tracking-tight text-3xl font-bold text-gray-800">{{ __('reservation.reservation_title') }}</h3>
+                    <p class="text-lg text-gray-600">{{ __('reservation.reservation_subtitle') }}</p>
                 </div>
                 <div class="p-6 pt-0">
                     <div class="space-y-6">
@@ -69,13 +71,29 @@
                                     </div>
                                 </div>
                                 @if ($errors->any())
-                                    <div class="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded">
-                                        <ul class="list-disc pl-5">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                                    @php
+                                        $reservationFields = ['date', 'time', 'guest_count'];
+                                        $hasReservationErrors = false;
+                                        foreach($reservationFields as $field) {
+                                            if($errors->has($field)) {
+                                                $hasReservationErrors = true;
+                                                break;
+                                            }
+                                        }
+                                    @endphp
+                                    @if($hasReservationErrors)
+                                        <div class="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded">
+                                            <ul class="list-disc pl-5">
+                                                @foreach ($reservationFields as $field)
+                                                    @if($errors->has($field))
+                                                        @foreach($errors->get($field) as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                 @endif
                                 <div class="pt-4">
                                     @auth

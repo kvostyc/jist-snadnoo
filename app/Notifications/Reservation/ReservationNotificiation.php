@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 
 class ReservationNotificiation extends BaseNotification
 {
-    protected function getIcon()
+    protected function getIcon(): string
     {
         /** @TODO add Blade icons component support */
         return '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -19,12 +19,12 @@ class ReservationNotificiation extends BaseNotification
                 ';
     }
 
-    protected function getLink()
+    protected function getLink(): string
     {
         return $this->typeOfRecord != 'deleted' ? '/admin/reservations/' . $this->data->id . '/edit' : '#';
     }
 
-    protected function getMessage()
+    protected function getMessage(): string
     {
         return 'rezervácia';
     }

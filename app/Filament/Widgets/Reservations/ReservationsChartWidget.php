@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets\Reservations;
 
-use App\Models\Reservation\Reservation;
+use App\Core\Services\ReservationService;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -31,16 +31,16 @@ class ReservationsChartWidget extends ChartWidget
     {
         $days = (int) $this->filter;
         $startDate = now()->subDays($days - 1)->startOfDay();
+        $endDate = now();
         
-        $reservations = DB::table('reservations')
-            ->whereBetween('date', [
-                $startDate->format('Y-m-d'),
-                now()->format('Y-m-d')
-            ])
-            ->selectRaw('date, COUNT(*) as count')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+        $reservationService = app(ReservationService::class);
+        $reservations = $reservationService->findByDateRange(
+            $startDate->format('Y-m-d'),
+            $endDate->format('Y-m-d')
+        );
+        
+        // Group reservations by date and count them
+        $reservationsByDate = $reservations->groupBy('date')->map->count();
         
         $dates = [];
         $counts = [];
@@ -49,7 +49,7 @@ class ReservationsChartWidget extends ChartWidget
             $date = $startDate->copy()->addDays($i)->format('Y-m-d');
             $dates[] = Carbon::parse($date)->format('d.m');
             
-            $count = $reservations->where('date', $date)->first()?->count ?? 0;
+            $count = $reservationsByDate->get($date, 0);
             $counts[] = $count;
         }
         

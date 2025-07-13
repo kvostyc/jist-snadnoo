@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Services\ReservationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,12 @@ class ReservationController extends Controller
      */
     public function index(Request $request): View
     {
-        /* Load user reservations with related data in a single query */
-        $reservations = $request->user()->reservations()
-            ->with(['reservation_status', 'table'])
-            ->orderBy('date', 'desc')
-            ->orderBy('time', 'desc')
-            ->get();
+        /* Load user reservations with related data using service */
+        $reservationService = app(ReservationService::class);
+        $reservations = $reservationService->findByUser($request->user())
+            ->load(['reservation_status', 'table'])
+            ->sortByDesc('date')
+            ->sortByDesc('time');
 
         return view('profile.my-reservations', [
             'user' => $request->user(),

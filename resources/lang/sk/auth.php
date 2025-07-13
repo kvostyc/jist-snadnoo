@@ -14,4 +14,5 @@ return [
     'password_invalid' => ':message',
     'not_registered_yet' => 'Vytvoriť účet',
     'already_registered' => 'Už máte vytvorený účet?',
+    'failed' => 'Zadané prihlasovacie údaje sa nezhodujú s našimi záznamami.',
 ];

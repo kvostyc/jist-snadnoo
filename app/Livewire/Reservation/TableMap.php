@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Reservation;
 
+use App\Core\Services\ReservationService;
+use App\Core\Services\ReservationStatusService;
+use App\Core\Services\TableService;
 use App\Livewire\Reservation\Traits\HasReservationAttributes;
 use Livewire\Component;
-use App\Models\Table\Table;
-use App\Models\Reservation\ReservationStatus;
-use App\Models\Reservation\Reservation;
 use Illuminate\Support\Facades\Auth;
 
+/**
+* Livewire component for table map selection
+*/
 class TableMap extends Component
 {
     use HasReservationAttributes;
@@ -35,16 +38,16 @@ class TableMap extends Component
     public $reservationSuccess = false;
 
     /**
-     * Handle table selection by user.
-     * Resets any previous validation errors and sets the selected table ID.
-     */
+    * Handle table selection by user
+    */
     public function selectTable($id)
     {
         /* Delete showed errors */
         $this->resetErrorBag();
 
         /* Get the table to check if it can be selected */
-        $table = Table::find($id);
+        $tableService = app(TableService::class);
+        $table = $tableService->find($id);
         
         /* Check if table has enough capacity for the guest count */
         if ($table && $this->guest_count > $table->available_for_guest_count) {
@@ -59,9 +62,8 @@ class TableMap extends Component
     }
 
     /**
-     * Handle reservation of the selected table.
-     * Validates input, creates reservation, updates state, and dispatches success event.
-     */
+    * Handle reservation of the selected table
+    */
     public function reserveTable()
     {
         /* Validate that a table is selected and exists */
@@ -71,11 +73,13 @@ class TableMap extends Component
             'selectedTableId.required' => __('reservation.error_select_table'),
         ]);
 
-        /* Get the 'reserved' status from the database */
-        $status = ReservationStatus::where('code', 'reserved')->first();
+        /* Get the reserved status from the database */
+        $statusService = app(ReservationStatusService::class);
+        $status = $statusService->findByCode('reserved');
 
         /* Create a new reservation record */
-        Reservation::create([
+        $reservationService = app(ReservationService::class);
+        $reservationService->create([
             'user_id' => Auth::id(),
             'reservation_status_id' => $status ? $status->id : null,
             'table_id' => $this->selectedTableId,
@@ -87,23 +91,22 @@ class TableMap extends Component
         /* Set success flag and reset selected table */
         $this->reservationSuccess = true;
         $this->selectedTableId = null;
-
-        /* Dispatch a browser event to notify about successful reservation */
-        $this->dispatch('reservation-success');
     }
 
     /**
-     * Render the component.
-     * Loads tables and their statuses for the selected date and time.
-     * Passes selected table and reservation success flag to the view.
-     */
+    * Render the component
+    */
     public function render()
     {
         /* Get all reservation statuses, keyed by their code */
-        $statuses = ReservationStatus::all()->keyBy('code');
+        $statusService = app(ReservationStatusService::class);
+        $statuses = $statusService->findAll()->keyBy('code');
 
         /* Get all tables and determine their status for the selected date and time */
-        $tables = Table::all()->map(function ($table) use ($statuses) {
+        $tableService = app(TableService::class);
+        $reservationService = app(ReservationService::class);
+        
+        $tables = $tableService->findAll()->map(function ($table) use ($statuses, $reservationService) {
             /* Find a reservation for this table at the selected date and time with specific statuses */
             $reservation = $table->reservations()
                 ->where('date', $this->date)
@@ -149,9 +152,8 @@ class TableMap extends Component
     }
 
     /**
-     * Initialize the component with date, time, and guest count.
-     * These are used to filter tables and reservations.
-     */
+    * Initialize the component with date, time, and guest count
+    */
     public function mount($date, $time, $guest_count)
     {
         $this->date = $date;

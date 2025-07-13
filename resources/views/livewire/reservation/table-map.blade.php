@@ -1,6 +1,19 @@
 <div class="p-6 pt-0">
     @if ($reservationSuccess)
-        <div class="text-center py-8">
+        <div class="text-center py-8" x-data="{ countdown: 5 }" x-init="
+            // Scroll to top when reservation is confirmed
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const interval = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        window.location.href = '{{ route('home') }}';
+                    }, 1000);
+                }
+            }, 1000);
+        ">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-circle-check-big w-16 h-16 text-green-500 mx-auto mb-4">
@@ -8,7 +21,20 @@
                 <path d="m9 11 3 3L22 4"></path>
             </svg>
             <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ __('reservation.reservation_confirmed') }}</h3>
-            <p class="text-gray-600">{{ __('reservation.reservation_details_sent') }}</p>
+            <p class="text-gray-600 mb-4">{{ __('reservation.reservation_details_sent') }}</p>
+            <div class="text-sm text-orange-600 font-medium">
+                <span x-show="countdown > 0" x-text="
+                    countdown === 1 
+                        ? '{{ __('reservation.redirect_countdown_one', ['seconds' => ':seconds']) }}'.replace(':seconds', countdown)
+                        : countdown >= 2 && countdown <= 4
+                            ? '{{ __('reservation.redirect_countdown_few', ['seconds' => ':seconds']) }}'.replace(':seconds', countdown)
+                            : '{{ __('reservation.redirect_countdown_plural', ['seconds' => ':seconds']) }}'.replace(':seconds', countdown)
+                "></span>
+                <span x-show="countdown <= 0">
+                    {{ __('reservation.redirect_now') }}
+                    <a href="{{ route('home') }}" class="underline hover:text-orange-700 ml-1">{{ __('reservation.home_page') }}</a>
+                </span>
+            </div>
         </div>
     @else
         <div class="bg-gray-50 p-4 rounded-lg">
@@ -57,10 +83,10 @@
                     </rect>
                     <rect x="120" y="20" width="200" height="40" fill="#a78bfa" stroke="#7c3aed" stroke-width="2"
                         rx="5"></rect>
-                    <text x="220" y="45" text-anchor="middle" class="text-sm font-medium fill-white">Bar</text>
+                    <text x="220" y="45" text-anchor="middle" class="text-sm font-medium fill-white">{{ __('reservation.bar') }}</text>
                     <rect x="360" y="20" width="70" height="100" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"
                         rx="5"></rect>
-                    <text x="395" y="75" text-anchor="middle" class="text-sm font-medium fill-white">Kuchyňa</text>
+                    <text x="395" y="75" text-anchor="middle" class="text-sm font-medium fill-white">{{ __('reservation.kitchen') }}</text>
                     @foreach ($tables as $table)
                         @php
                             $fill = $table->color_hex;
@@ -171,12 +197,4 @@
             </div>
         </div>
     @endif
-
-    <script>
-        window.addEventListener('reservation-success', () => {
-            setTimeout(() => {
-                window.location.href = '{{ url('/') }}';
-            }, 5000);
-        });
-    </script>
 </div>

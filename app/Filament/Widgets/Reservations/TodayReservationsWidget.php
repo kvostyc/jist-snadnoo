@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets\Reservations;
 
-use App\Models\Reservation\Reservation;
+use App\Core\Services\ReservationService;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -24,9 +24,8 @@ class TodayReservationsWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        $today = now()->format('Y-m-d');
-
-        $todayReservations = Reservation::where('date', $today)->count();
+        $reservationService = app(ReservationService::class);
+        $todayReservations = $reservationService->findTodayReservations()->count();
 
         return [
             Stat::make('Dnešné rezervácie', $todayReservations)

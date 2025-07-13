@@ -8,16 +8,12 @@
         <div>
             @forelse ($unreadNotifications as $item)
                 <div id="toast-default"
-                    class="flex items-center w-full p-4 text-black rounded-lg shadow 
-                        @if (isset($item->data['background-color'])) {{ $item->data['background-color'] }} 
-                        @else
-                        bg-success-500 @endif
-                        my-2"
+                    class="flex items-center w-full p-4 text-black rounded-lg shadow my-2"
+                    style="background-color: {{ $item->data['background-color'] ?? '#10b981' }}"
                     role="alert">
                     <div
                         class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
                         @if (strlen($item->data['icon']) > 50)
-                            A
                             {!! $item->data['icon'] !!}
                         @else
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -17,18 +17,6 @@ export default {
         },
     },
 
-    safelist: [
-        {
-            pattern: /bg-(success|danger|warning|blue|orange)-(100|400|500|600|800)/,
-        },
-        {
-            pattern: /border-(success|danger|warning|blue)-(100|400|500|600|800)/,
-        },
-        {
-            pattern: /text-(success|danger|warning|blue)-(100|400|500|600|800)/,
-        },
-    ],
-
     plugins: [
         forms,
         require('daisyui'),

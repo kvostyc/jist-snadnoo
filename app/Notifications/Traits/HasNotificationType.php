@@ -9,28 +9,28 @@ trait HasNotificationType
     public array $recordMapper = [
         'created' => [
             'message' => 'Bol/a vytvorená nový/á',
-            'color' => 'bg-success-500',
+            'color' => '#10b981',
         ],
         'updated' => [
             'message' => 'Bol/a updatovaný/á',
-            'color' => 'bg-warning-500',
+            'color' => '#f59e0b',
         ],
         'deleted' => [
             'message' => 'Bol/a vymazaná/ý',
-            'color' => 'bg-danger-500',
+            'color' => '#ef4444',
         ],
         'replied' => [
             'message' => 'Bolo odpovedané na',
-            'color' => 'bg-warning-500',
+            'color' => '#f59e0b',
         ],
     ];
 
-    public function getRecordMessage()
+    public function getRecordMessage(): string
     {
         return $this->recordMapper[$this->typeOfRecord]['message'];
     }
 
-    public function getRecordColor()
+    public function getRecordColor(): string
     {
         return $this->recordMapper[$this->typeOfRecord]['color'];
     }

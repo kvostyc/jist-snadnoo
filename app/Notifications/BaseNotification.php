@@ -6,12 +6,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use App\Notifications\Traits\HasNotificationType;
 
-class BaseNotification extends Notification
+abstract class BaseNotification extends Notification
 {
     use HasNotificationType;
     use Queueable;
 
-    public $data;
+    public mixed $data;
 
     public function __construct(mixed $data, string $type)
     {
@@ -19,12 +19,19 @@ class BaseNotification extends Notification
         $this->typeOfRecord = $type;
     }
 
-    public function via($notifiable)
+    abstract protected function getIcon(): string;
+
+    abstract protected function getLink(): string;
+
+    abstract protected function getMessage(): string;
+
+
+    public function via($notifiable): array
     {
         return ['database'];
     }
 
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'icon' => $this->getIcon(),
@@ -33,21 +40,6 @@ class BaseNotification extends Notification
             'background-color' => $this->getRecordColor(),
             'id' => $this->data->id,
         ];
-    }
-
-    protected function getIcon()
-    {
-        return '';
-    }
-
-    protected function getLink()
-    {
-        return '';
-    }
-
-    protected function getMessage()
-    {
-        return '';
     }
 
     protected function getBackgroundColor()
