@@ -2,6 +2,16 @@
 
 A modern Laravel-based restaurant reservation system with real-time table management, user authentication, and admin dashboard.
 
+![alt text](https://raw.githubusercontent.com/kvostyc/jist-snadnoo/refs/heads/main/resources/fixtures/app_preview_first.png "App Preview First")
+
+![alt text](https://raw.githubusercontent.com/kvostyc/jist-snadnoo/refs/heads/main/resources/fixtures/app_preview_second.png "App Preview Second")
+
+![alt text](https://raw.githubusercontent.com/kvostyc/jist-snadnoo/refs/heads/main/resources/fixtures/app_preview_third.png "App Preview Third")
+
+![alt text](https://raw.githubusercontent.com/kvostyc/jist-snadnoo/refs/heads/main/resources/fixtures/app_preview_admin_first.png "App Admin Preview First")
+
+![alt text](https://raw.githubusercontent.com/kvostyc/jist-snadnoo/refs/heads/main/resources/fixtures/app_preview_admin_second.png "App Admin Preview Second")
+
 ## Features
 
 - **User Authentication**: Secure login/registration system
